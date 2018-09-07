@@ -1,0 +1,44 @@
+- name: Demonstrates provisioning docker containers from Ansible
+  hosts: localhost
+
+  pre_tasks:
+     - name: Remove all ubuntu containers
+       docker_container:
+            name: "ubuntu{{item}}"
+            image: "tektutor/ansible-ubuntu"
+            state: absent
+       with_sequence: count=3
+
+     - name: Remove all centos containers
+       docker_container:
+            name: "centos{{item}}"
+            image: "tektutor/ansible-centos"
+            state: absent
+       with_sequence: count=3
+
+     - name: Remove all remaining containers
+       shell: "docker rm -f $(docker ps -aq)"
+       ignore_errors: True
+
+  tasks:
+    - name: Create Ubuntu container
+      docker_container:
+         name: "ubuntu{{item}}"
+         hostname: "ubuntu{{item}}"
+         image: "tektutor/ansible-ubuntu"
+         ports:
+           - "200{{item}}:22"
+           - "800{{item}}:80"
+         state: started 
+      with_sequence: start=0 end=2 
+
+    - name: Create CentOS container
+      docker_container:
+         name: "centos{{item}}"
+         hostname: "centos{{item}}"
+         image: "tektutor/ansible-centos"
+         ports:
+           - "300{{item}}:22"
+           - "900{{item}}:80"
+         state: started 
+      with_sequence: start=0 end=2 
