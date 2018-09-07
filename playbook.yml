@@ -1,0 +1,4 @@
+- name: Demonstrates use of our custom ansible module
+  hosts: all
+  roles:
+    - nginx
