@@ -3,8 +3,7 @@
 You will have to replace the authorized_keys file in ubuntu and centos folders with your public keys.
 
 For example
-++++++++++++
-
+============
 1. Clone the git repository with the below command in Linux terminal or Windows command prompt
 git clone tektutor/devops-pipeline-chennai03sep2018.git
 
